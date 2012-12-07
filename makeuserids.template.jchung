@@ -3,24 +3,26 @@
 # CS 370, Fall 2012
 
 
-
-
 inputfile=$1
-
-
 
 
 # 0. Remove any temporary files from previous runs of the script.
 #    This is essential during script testing.
 
 
+rm -f firstn lastname ids.1st ids.2nd ids.final	# Maybe correct?
+
 
 # 1. Create firstn from $inputfile
 
 
+cut -d, -f2 $inputfile | cut -c2 | tr A-Z a-z > firstn	# DONE
 
-# 2. Create lastn from $inputfile with all special characters removed
 
+# 2. Create lastname from $inputfile with all special characters removed
+
+
+cut -d, -f1 $inputfile | tr -d [:punct:] | tr -d " " | cut -c1-7 | tr A-Z a-z > lastname	# DONE
 
 
 # 3. Create first draft userids file from firstn and lastn > ids.1st'.
@@ -46,6 +48,7 @@ inputfile=$1
 #     Abrams, Jessica :jabrams2
 
 
+paste -d" " firstn lastname | tr -d " " > ids.1st	# DONE
 
 
 # 4. Create list of the duplicated ids in ids.1st > duplids'.
@@ -58,6 +61,7 @@ inputfile=$1
 #     dabrams
 
 
+sort ids.1st | uniq -d > duplids	# DONE
 
 
 # 5. Append userids from ids.1st to ids.2nd.
@@ -104,8 +108,12 @@ inputfile=$1
 #    The same uniq option used to create duplids (step 4) should
 #    work.
 
-
+uniq -D1
 
 
 
 # 7. Paste ids.2nd to $inputfile > ids.final
+
+
+
+
